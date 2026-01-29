@@ -1,0 +1,64 @@
+name: Salesforce + Vlocity Deployment
+
+on:
+  push:
+    branches:
+      - main
+      - release/*
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1️⃣ Checkout Code
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    # 2️⃣ Setup Node.js
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    # 3️⃣ Install Salesforce CLI
+    - name: Install Salesforce CLI
+      run: |
+        npm install -g @salesforce/cli
+
+    # 4️⃣ Install Vlocity CLI
+    - name: Install Vlocity CLI
+      run: |
+        npm install -g vlocity
+
+    # 5️⃣ Authenticate Salesforce (JWT)
+    - name: Authenticate Salesforce Org
+      run: |
+        echo "${{ secrets.SF_JWT_KEY }}" > server.key
+        sf org login jwt \
+          --client-id ${{ secrets.SF_CLIENT_ID }} \
+          --username ${{ secrets.SF_USERNAME }} \
+          --jwt-key-file server.key \
+          --instance-url ${{ secrets.SF_INSTANCE_URL }} \
+          --alias targetOrg
+
+    # 6️⃣ Deploy Salesforce Metadata
+    - name: Deploy Salesforce Metadata
+      run: |
+        sf project deploy start \
+          --source-dir force-app \
+          --target-org targetOrg \
+          --wait 30
+
+    # 7️⃣ Deploy Vlocity DataPacks
+    - name: Deploy Vlocity Components
+      run: |
+        vlocity -sfdx.username targetOrg \
+          packDeploy \
+          --job vlocity/vlocity.yaml
+
+    # 8️⃣ Post-Deployment Validation
+    - name: Validate Deployment
+      run: |
+        sf org display --target-org targetOrg
