@@ -16,6 +16,7 @@
     <enableReports>true</enableReports>
     <enableSearch>true</enableSearch>
     <enableStreamingApi>true</enableStreamingApi>
+    <searchResultsFields>STATUS__c</searchResultsFields>
     <searchLayouts>
         <searchResultsAdditionalFields>NAME</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>STATUS__C</searchResultsAdditionalFields>
