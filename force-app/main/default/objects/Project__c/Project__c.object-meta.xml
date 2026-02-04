@@ -8,6 +8,11 @@
     </nameField>
     <pluralLabel>Projects</pluralLabel>
     <deploymentStatus>Deployed</deploymentStatus>
+     <searchLayouts>
+        <searchResultsAdditionalFields>NAME</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>STATUS__C</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>START_DATE__C</searchResultsAdditionalFields>
+    </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <enableActivities>true</enableActivities>
     <enableBulkApi>true</enableBulkApi>
@@ -16,14 +21,4 @@
     <enableReports>true</enableReports>
     <enableSearch>true</enableSearch>
     <enableStreamingApi>true</enableStreamingApi>
-    <searchLayouts>
-        <searchResults>
-            <searchColumns>STATUS__c</searchColumns>
-        </searchResults>
-    </searchLayouts>
-    <searchLayouts>
-        <searchResultsAdditionalFields>NAME</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>STATUS__C</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>START_DATE__C</searchResultsAdditionalFields>
-    </searchLayouts>
 </CustomObject>
