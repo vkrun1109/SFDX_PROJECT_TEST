@@ -10,6 +10,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: Dev
 
     steps:
     # 1️⃣ Checkout Code
