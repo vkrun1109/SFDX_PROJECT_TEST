@@ -1,0 +1,19 @@
+{
+  "DataRaptorType": "Load",
+  "DataRaptorName": "DR_Project_Load",
+  "Object": "Project__c",
+  "Fields": [
+    {
+      "FieldName": "Name",
+      "JSONPath": "ProjectName"
+    },
+    {
+      "FieldName": "Project_Code__c",
+      "JSONPath": "ProjectCode"
+    },
+    {
+      "FieldName": "Project_Status__c",
+      "JSONPath": "ProjectStatus"
+    }
+  ]
+}

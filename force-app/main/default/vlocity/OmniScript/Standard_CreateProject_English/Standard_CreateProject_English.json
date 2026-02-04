@@ -1,0 +1,46 @@
+{
+  "OmniScriptType": "Standard",
+  "OmniScriptSubType": "CreateProject",
+  "Language": "English",
+  "Label": "Create Project",
+  "Version": 1,
+  "IsActive": true,
+  "Elements": [
+    {
+      "Type": "Step",
+      "Name": "ProjectDetails",
+      "Label": "Project Details",
+      "Elements": [
+        {
+          "Type": "Text",
+          "Name": "ProjectName",
+          "Label": "Project Name",
+          "Required": true
+        },
+        {
+          "Type": "Text",
+          "Name": "ProjectCode",
+          "Label": "Project Code",
+          "Required": true
+        },
+        {
+          "Type": "Picklist",
+          "Name": "ProjectStatus",
+          "Label": "Project Status",
+          "Options": [
+            { "Label": "Not Started", "Value": "Not Started" },
+            { "Label": "In Progress", "Value": "In Progress" },
+            { "Label": "Completed", "Value": "Completed" }
+          ]
+        }
+      ]
+    },
+    {
+      "Type": "DataRaptor Load Action",
+      "Name": "CreateProject",
+      "Label": "Create Project Record",
+      "DataRaptorName": "DR_Project_Load",
+      "DataRaptorType": "Load"
+    }
+  ]
+}
