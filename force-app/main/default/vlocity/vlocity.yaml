@@ -1,0 +1,8 @@
+projectPath: vlocity
+gitCheck: true
+gitCheckKey:
+autoUpdateSettings: true
+autoRetryErrors: true
+ignoreLWCActivationOS: true
+ignoreLWCActivationCards: true
+queries:
