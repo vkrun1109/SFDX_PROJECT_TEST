@@ -57,7 +57,7 @@ jobs:
       run: |
         vlocity -sfdx.username targetOrg \
           packDeploy \
-          --job force-app\main\default\vlocity.yaml
+          -job force-app\main\default\vlocity.yaml
 
     # 8️⃣ Post-Deployment Validation
     - name: Validate Deployment
