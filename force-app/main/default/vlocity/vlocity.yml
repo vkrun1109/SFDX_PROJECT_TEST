@@ -1,4 +1,4 @@
-projectPath: vlocity
+projectPath: force-app\main\default\vlocity\
 gitCheck: true
 gitCheckKey:
 autoUpdateSettings: true
