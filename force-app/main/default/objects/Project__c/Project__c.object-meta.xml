@@ -16,7 +16,11 @@
     <enableReports>true</enableReports>
     <enableSearch>true</enableSearch>
     <enableStreamingApi>true</enableStreamingApi>
-    <searchResultsFields>STATUS__c</searchResultsFields>
+    <searchLayouts>
+        <searchResults>
+            <searchColumns>STATUS__c</searchColumns>
+        </searchResults>
+    </searchLayouts>
     <searchLayouts>
         <searchResultsAdditionalFields>NAME</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>STATUS__C</searchResultsAdditionalFields>
