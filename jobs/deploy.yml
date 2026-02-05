@@ -1,0 +1,13 @@
+projectPath: ./vlocity
+autoUpdateSettings: true
+autoRetryErrors: true
+gitCheck: false
+OverrideSettings:
+  DataPacks:
+    AttributeCategory:
+      PaginationSize: 50
+  SObjects:
+    vlocity_namespace__Catalog__c:
+      SourceKeyDefinition:
+      - vlocity_namespace__CatalogCode__c
+queries:
