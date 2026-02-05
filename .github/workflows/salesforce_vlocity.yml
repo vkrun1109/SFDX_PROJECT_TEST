@@ -56,8 +56,7 @@ jobs:
     - name: Deploy Vlocity Components
       run: |
         vlocity -sfdx.username targetOrg \
-          packDeploy \
-          -job force-app\main\default\vlocity.yaml
+           -job jobs/deploy.yml packDeploy --verbose  --simpleLogging true
 
     # 8️⃣ Post-Deployment Validation
     - name: Validate Deployment
