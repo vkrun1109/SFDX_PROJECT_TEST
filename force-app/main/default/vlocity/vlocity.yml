@@ -1,0 +1,7 @@
+projectPath: ./vlocity
+gitCheck: false
+autoUpdateSettings: true
+autoRetryErrors: true
+ignoreLWCActivationOS: true
+ignoreLWCActivationCards: true
+queries:
