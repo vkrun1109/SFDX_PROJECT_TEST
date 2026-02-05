@@ -55,6 +55,8 @@ jobs:
     # 7️⃣ Deploy Vlocity DataPacks
     - name: Deploy Vlocity Components
       run: |
+        pwd
+        ls -R
         vlocity -sfdx.username targetOrg packDeploy --job jobs/deploy.yml --verbose --simpleLogging true
 
     # 8️⃣ Post-Deployment Validation

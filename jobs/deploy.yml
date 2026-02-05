@@ -1,4 +1,4 @@
-projectPath: ./force-app/main/default/vlocity
+projectPath: vlocity
 autoUpdateSettings: true
 autoRetryErrors: true
 gitCheck: false
