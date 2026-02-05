@@ -1,4 +1,5 @@
 projectPath: vlocity
+namespace: vlocity_cmt
 autoUpdateSettings: true
 autoRetryErrors: true
 gitCheck: false
