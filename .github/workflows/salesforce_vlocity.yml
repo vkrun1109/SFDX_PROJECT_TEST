@@ -13,30 +13,41 @@ jobs:
     environment: Dev
 
     steps:
+
+    # =====================================
     # 1️⃣ Checkout Code
+    # =====================================
     - name: Checkout Repository
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0   # ✅ Required for delta comparison
 
+    # =====================================
     # 2️⃣ Setup Node.js
+    # =====================================
     - name: Setup Node
       uses: actions/setup-node@v4
       with:
         node-version: '18'
 
-    # 3️⃣ Install Salesforce CLI
+    # =====================================
+    # 3️⃣ Install CLIs
+    # =====================================
     - name: Install Salesforce CLI
-      run: |
-        npm install -g @salesforce/cli
+      run: npm install -g @salesforce/cli
 
-    # 4️⃣ Install Vlocity CLI
-    - name: Install Vlocity CLI
+    - name: Install Vlocity CLI + Plugin
       run: |
         npm install -g vlocity
+        sf plugins install vlocityestools || true
 
-    # 5️⃣ Authenticate Salesforce (JWT)
+    # =====================================
+    # 4️⃣ Authenticate Salesforce (JWT)
+    # =====================================
     - name: Authenticate Salesforce Org
       run: |
         echo "${{ secrets.SF_JWT_KEY }}" > server.key
+
         sf org login jwt \
           --client-id ${{ secrets.SF_CLIENT_ID }} \
           --username ${{ secrets.SF_USERNAME }} \
@@ -44,22 +55,48 @@ jobs:
           --instance-url ${{ secrets.SF_INSTANCE_URL }} \
           --alias targetOrg
 
-    # 6️⃣ Deploy Salesforce Metadata
-    - name: Deploy Salesforce Metadata
+    # =====================================
+    # 5️⃣ GET DELTA (SF + Vlocity)
+    # =====================================
+    - name: Prepare Delta
       run: |
-        sf project deploy start \
+        echo "Fetching previous commit..."
+        BASE_COMMIT=$(git rev-parse HEAD~1)
+
+        echo "Base commit: $BASE_COMMIT"
+
+        # Salesforce delta
+        sf project deploy preview \
           --source-dir force-app \
           --target-org targetOrg \
-          --wait 30
+          --json > delta-preview.json || true
 
-    # 7️⃣ Deploy Vlocity DataPacks
-    - name: Deploy Vlocity Components
-      run: |
-        pwd
-        ls -R
-        vlocity -sfdx.username targetOrg packDeploy --job jobs/deploy.yml --verbose --simpleLogging true
+        # Create delta folder
+        mkdir -p delta
 
-    # 8️⃣ Post-Deployment Validation
-    - name: Validate Deployment
+        echo "Generating Salesforce delta package..."
+        git diff $BASE_COMMIT HEAD --name-only force-app > delta/sf_delta.txt
+
+        if [ -s delta/sf_delta.txt ]; then
+          echo "Salesforce delta found"
+        else
+          echo "No Salesforce changes"
+        fi
+
+        # Vlocity delta
+        git diff $BASE_COMMIT HEAD --name-only vlocity | cut -f1-3 -d'/' | sort -u > delta/vlocity_delta.txt
+
+        if [ -s delta/vlocity_delta.txt ]; then
+          echo "Vlocity delta found"
+        else
+          echo "No Vlocity changes"
+        fi
+
+        cat delta/*
+    
+    # =====================================
+    # 6️⃣ VALIDATION (CHECK ONLY)
+    # =====================================
+    - name: Validate Salesforce Deployment (Check Only)
       run: |
-        sf org display --target-org targetOrg
+        if [ -s delta/sf_delta.txt ]; then
