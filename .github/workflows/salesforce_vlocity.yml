@@ -45,9 +45,17 @@ jobs:
     # 4️⃣ Authenticate Salesforce (JWT)
     # =====================================
     - name: Authenticate Salesforce Org
+      env:
+       SF_JWT_KEY: ${{ secrets.SF_JWT_KEY }}
+       SF_CLIENT_ID: ${{ secrets.SF_CLIENT_ID }}
+       SF_USERNAME: ${{ secrets.SF_USERNAME }}
+       SF_INSTANCE_URL: ${{ secrets.SF_INSTANCE_URL }}
       run: |
-        echo "${{ secrets.SF_JWT_KEY }}" > server.key
-
+        echo "Writing JWT Key..."
+        printf "%s" "$SF_JWT_KEY" > server.key
+        echo "validating Key format..."
+        head -1 server.key
+        tail -1 server.key
         sf org login jwt \
           --client-id ${{ secrets.SF_CLIENT_ID }} \
           --username ${{ secrets.SF_USERNAME }} \
